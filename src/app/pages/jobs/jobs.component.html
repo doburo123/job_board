@@ -1,17 +1,53 @@
-<div class="container mt-5">
-  <h2 class="mb-4">Available Jobs</h2>
+<section class="job-area pb-100 pt-100">
+  <div class="container">
+    <div class="section-title">
+      <span class="sub-title">Desire Jobs</span>
+      <h2>Jobs You Will Love</h2>
+    </div>
 
-  <div *ngIf="loading">Loading jobs...</div>
-  <div *ngIf="error" class="text-danger">Failed to load jobs.</div>
+    <div *ngIf="loading" class="text-center">Loading jobs...</div>
+    <div *ngIf="error" class="text-danger text-center">Failed to load jobs.</div>
+    <div *ngIf="!loading && !error && jobs.length === 0" class="text-center">No jobs found.</div>
 
-  <div *ngIf="!loading && !error && jobs.length === 0">No jobs found.</div>
+    <div class="row" *ngIf="!loading && !error">
+      <div class="col-sm-6 col-lg-12" *ngFor="let job of jobs">
+        <div class="job-item">
+          <a [routerLink]="['/job-details']">
+            <div class="feature-top-right">
+              <span>Featured</span>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-lg-8 col-md-12">
+                <div class="job-left">
+                  <img src="assets/img/home-one/job4.png" alt="Brand">
+                  <h3>{{ job.title }}</h3>
+                  <p>{{ job.clientCorporation?.name || 'Unknown Company' }}</p>
+                  <ul>
+                    <li *ngIf="job.salary"><span>${{ job.salary }}</span></li>
+                    <li><i class="flaticon-appointment"></i> {{ job.dateLastPublished | date:'mediumDate' }}</li>
+                    <li><i class='bx bx-location-plus'></i> {{ job.address?.city || 'Unknown' }}, {{ job.address?.state || '' }}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="job-right">
+                  <ul>
+                    <li><i class="flaticon-customer"></i> {{ job.employmentType || 'Unknown' }}</li>
+                    <li><span>Add to bookmarks</span></li>
+                  </ul>
+                  <div class="job-btn mt-2">
+                    <a href="#" class="default-btn">Apply Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
 
-  <div *ngFor="let job of jobs" class="card mb-3 p-3">
-    <h5>{{ job.title }}</h5>
-    <p><strong>Category:</strong> {{ job.publishedCategory?.name }}</p>
-    <p><strong>Location:</strong> {{ job.address?.city }}, {{ job.address?.state }}</p>
-    <p><strong>Type:</strong> {{ job.employmentType }}</p>
-    <p><strong>Published:</strong> {{ job.dateLastPublished | date }}</p>
-    <p [innerHTML]="job.publicDescription"></p>
+    <div class="job-browse text-center mt-4">
+      <p>A ton of top tech jobs are waiting for you. <a routerLink="/jobs">Browse all jobs</a></p>
+    </div>
   </div>
-</div>
+</section>
